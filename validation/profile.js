@@ -9,15 +9,15 @@ module.exports = function validateProfileInput(data) {
   data.skills = !isEmpty(data.skills) ? data.skills : "";
 
   var inValidUrlMsg = "Not a valid URL";
-  if (!Validator.isEmpty(data.handle, { min: 2, max: 40 })) {
+  if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
     errors.handle = "Profile handle is required";
   }
 
-  if (!Validator.isEmpty(data.status)) {
+  if (Validator.isEmpty(data.status)) {
     errors.status = "Status field is required";
   }
 
-  if (!Validator.isEmpty(data.skills)) {
+  if (Validator.isEmpty(data.skills)) {
     errors.skills = "Skills field is required";
   }
 
