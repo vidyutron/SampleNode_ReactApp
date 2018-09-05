@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import classnames from "classnames";
+
+//connect te reduc to reac component
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
+import { stat } from "fs";
 class Register extends Component {
   //component state
   constructor() {
@@ -16,6 +22,18 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -28,13 +46,14 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+
+    //any actions that we bring in will be called using the props
+    //2nd parameter will enable usage of routing and history within the action
+    this.props.registerUser(newUser, this.props.history);
   }
   render() {
     const { errors } = this.state;
+
     return (
       <div className="register">
         <div className="container">
@@ -115,5 +134,21 @@ class Register extends Component {
     );
   }
 }
+//any property you have in ur component must be mapped to proptypes
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
 
-export default Register;
+//we want to get the state into our component we need to create function
+//its putting authstate inside the property called auth, so that we can access with this.props.auth and then anything in this state like this.props.auth.user
+const mapStateToProps = state => ({
+  //this should be same as the property defined in the object of the combineReducer
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));
