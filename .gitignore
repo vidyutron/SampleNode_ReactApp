@@ -2,3 +2,5 @@
 package-lock.json
 /.vs/SampleNode_ReactApp/v15
 /config/keys_dev.js
+/build
+

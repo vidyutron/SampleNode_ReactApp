@@ -22,7 +22,7 @@ module.exports = function validateProfileInput(data) {
   }
 
   if (!isEmpty(data.website)) {
-    if (!Validator.isURL(website)) {
+    if (!Validator.isURL(data.website)) {
       errors.website = inValidUrlMsg;
     }
   }

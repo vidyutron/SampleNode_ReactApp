@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\client",
-    "\\validation"
+    "\\config"
   ],
-  "SelectedNode": "\\validation\\profile.js",
+  "SelectedNode": "\\config\\keys_dev.js",
   "PreviewInSolutionExplorer": false
 }

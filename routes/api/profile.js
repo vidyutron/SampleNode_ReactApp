@@ -27,7 +27,7 @@ router.get(
   (req, res) => {
     const errors = {};
 
-    Profile.findOne({ user: re.user.id })
+    Profile.findOne({ user: req.user.id })
       .then(profile => {
         if (!profile) {
           errors.noprofile = "there is no profile for this user";
